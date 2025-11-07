@@ -1,11 +1,9 @@
-export type NoteKey = "treble" | "bass";
+import type { NoteName, Note } from "./types";
 
-export type Note = {
-    note: number;
-    octave: number;
-    key: NoteKey;
-};
-
-export const existedNotes = ["до", "ре", "ми", "фа", "соль", "ля", "си"] as const;
+export const existedNotes: NoteName[] = ["до", "ре", "ми", "фа", "соль", "ля", "си"];
 
 export const notesList: Note[] = [];
+
+export const getNoteName = (noteIndex: number): NoteName => {
+    return existedNotes[noteIndex];
+};

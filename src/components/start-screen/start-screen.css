@@ -1,0 +1,108 @@
+.start-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.start-screen__container {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+    padding: 20px;
+    border: 2px solid #dddddd;
+    border-radius: 5px;
+    box-shadow: -5px 6px 20px 0 #504c1326;
+    background: #ffffff;
+}
+
+.start-screen__title {
+    text-align: center;
+    font-weight: 500;
+    width: 100%;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 16px;
+}
+
+.start-screen__q-count {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 250px;
+}
+
+.start-screen__q-count-button,
+.start-screen__q-count-input {
+    outline: none;
+    padding: 10px;
+    border: 2px solid #dddddd;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.start-screen__q-count-button {
+    flex: 1;
+}
+
+.start-screen__q-count-predefined {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.start-screen__start-button {
+    outline: none;
+    padding: 10px 20px;
+    min-width: 250px;
+    border: 2px solid #dddddd;
+    background: rgb(15 204 142);
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.start-screen__start-button:hover {
+    background: rgb(15, 181, 126);
+}
+
+.start-screen__start-button:active {
+    background: rgb(20, 199, 139);
+}
+
+.start-screen__buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+}
+
+.start-screen__completed-button {
+    width: auto;
+    min-width: 200px;
+    flex: 1;
+}
+
+.start-screen__home-button {
+    background: transparent;
+    color: #878787;
+}
+
+.start-screen__home-button:hover {
+    color: #ffffff;
+}
