@@ -52,9 +52,11 @@
     transition: all 0.3s;
 }
 
-.start-screen__octave-button:hover,
-.start-screen__q-count-button:hover {
-    border-color: #007acc;
+@media (hover: hover) {
+    .start-screen__octave-button:hover,
+    .start-screen__q-count-button:hover {
+        border-color: #007acc;
+    }
 }
 
 .start-screen__octave-button {
@@ -86,8 +88,10 @@
     font-size: 16px;
 }
 
-.start-screen__start-button:hover {
-    background: rgb(15, 181, 126);
+@media (hover: hover) {
+    .start-screen__start-button:hover {
+        background: rgb(15, 181, 126);
+    }
 }
 
 .start-screen__start-button:active {
@@ -114,8 +118,10 @@
     color: #878787;
 }
 
-.start-screen__home-button:hover {
-    color: #ffffff;
+@media (hover: hover) {
+    .start-screen__home-button:hover {
+        color: #ffffff;
+    }
 }
 
 .start-screen__octaves {
