@@ -38,11 +38,7 @@ type Context = {
 const [_noteProvider, useNoteContext] = createContext<Context>("context");
 
 const NoteContextProvider = ({ children }: { children: ReactNode }) => {
-    const [currentStep, setCurrentStep] = useState<null | Note>({
-        key: "treble",
-        note: 0,
-        octave: 1,
-    });
+    const [currentStep, setCurrentStep] = useState<null | Note>(null);
 
     const [quizState, setQuizState] = useState<QuizState>({
         currentNote: null,

@@ -8,5 +8,10 @@ export const messages = {
     "start-screen.restart": "Начать заново",
     "start-screen.to-main-page": "На главный экран",
 
-    "quiz-screen": ""
+    "quiz-screen.info.question": "Вопрос {n} из {N}",
+    "quiz-screen.info.score": "Счет: {score}",
+
+    "quiz-screen.footer.note": "Какая это нота?",
+    "quiz-screen.footer.controlls.end": "Завершить",
+    "quiz-screen.footer.controlls.next": "Следующий вопрос"
 };
