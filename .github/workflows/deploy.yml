@@ -5,20 +5,20 @@ on:
         tags:
             - "v*" # Только при пуше тегов начинающихся с 'v'
 
-# ↓ ДОБАВЬ ЭТИ ПРАВА
+# ↓ ПРАВА (ОБЯЗАТЕЛЬНО)
 permissions:
     contents: read
-    pages: write # ← ДОСТУП К PAGES
-    id-token: write # ← АУТЕНТИФИКАЦИЯ
+    pages: write
+    id-token: write
 
-# ↓ ДОБАВЬ ЭТУ НАСТРОЙКУ ДЛЯ JOBS
 jobs:
-    build:
+    # ↓ JOB ДЕПЛОЯ
+    deploy:
         runs-on: ubuntu-latest
 
-        # ↓ ДОБАВЬ ЭТУ СЕКЦИЮ
+        # ↓ УКАЗЫВАЕМ CORRECT ENVIRONMENT NAME
         environment:
-            name: github-pages
+            name: github-pages # ← ДОЛЖЕН СОВПАДАТЬ С ИМЕНЕМ В НАСТРОЙКАХ!
             url: ${{ steps.deployment.outputs.page_url }}
 
         steps:
@@ -26,7 +26,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
               with:
-                  fetch-depth: 0 # Важно для тегов!
+                  fetch-depth: 0
 
             # ↓ ШАГ 2: НАСТРОЙКА PAGES
             - name: Setup Pages
@@ -44,16 +44,16 @@ jobs:
               run: npm install
 
             # ↓ ШАГ 5: СБОРКА ПРОЕКТА
-            - name: Build
+            - name: Build project
               run: npm run build
 
             # ↓ ШАГ 6: ЗАГРУЗКА АРТЕФАКТА
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
-                  path: ./dist # Папка куда Vite собирает проект
+                  path: ./dist
 
             # ↓ ШАГ 7: ДЕПЛОЙ
             - name: Deploy to GitHub Pages
-              id: deployment # ← ВАЖНО: этот id используется в environment.url
+              id: deployment
               uses: actions/deploy-pages@v4
