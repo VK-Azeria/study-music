@@ -1,16 +1,16 @@
-import { createContext } from "@radix-ui/react-context";
+import { createContext } from '@radix-ui/react-context';
 import {
     createElement,
     useCallback,
     useState,
     type Dispatch,
     type ReactNode,
-    type SetStateAction,
-} from "react";
+    type SetStateAction
+} from 'react';
 
-import type { VisualNote, NoteName, Note, AvailableOctaves } from "./types";
-import { getNoteName } from "./notes";
-import { generateQuizNotes } from "./utils/generate-quiz-notes";
+import type { VisualNote, NoteName, Note, AvailableOctaves } from './types';
+import { getNoteName } from './notes';
+import { generateQuizNotes } from './utils/generate-quiz-notes';
 
 type QuizState = {
     currentNote: VisualNote | null;
@@ -37,13 +37,13 @@ type Context = {
     setCurrentStep: Dispatch<SetStateAction<Note | null>>;
 };
 
-const [_noteProvider, useNoteContext] = createContext<Context>("context");
+const [_noteProvider, useNoteContext] = createContext<Context>('context');
 
 const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [currentStep, setCurrentStep] = useState<null | Note>(null);
     const [octaves, setOctaves] = useState<AvailableOctaves>({
         treble: [3, 4, 5, 6],
-        bass: [1, 2, 3, 4],
+        bass: [1, 2, 3, 4]
     });
 
     const [quizState, setQuizState] = useState<QuizState>({
@@ -54,15 +54,18 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         totalQuestions: 0,
         currentQuestionIndex: 0,
         quizNotes: [],
-        showResult: false,
+        showResult: false
     });
 
-    const checkAnswer = useCallback((userAnswer: NoteName, correctNote: Note): boolean => {
-        const correctNoteName = getNoteName(correctNote.note);
-        return userAnswer === correctNoteName;
-    }, []);
+    const checkAnswer = useCallback(
+        (userAnswer: NoteName, correctNote: Note): boolean => {
+            const correctNoteName = getNoteName(correctNote.note);
+            return userAnswer === correctNoteName;
+        },
+        []
+    );
 
-    const startQuiz = useCallback<Context["startQuiz"]>(
+    const startQuiz = useCallback<Context['startQuiz']>(
         (questionCount = 10) => {
             const quizNotes = generateQuizNotes(questionCount, octaves);
             setQuizState({
@@ -73,11 +76,11 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                 totalQuestions: questionCount,
                 currentQuestionIndex: 0,
                 quizNotes,
-                showResult: false,
+                showResult: false
             });
             setCurrentStep(quizNotes[0]);
         },
-        [octaves],
+        [octaves]
     );
 
     const submitAnswer = useCallback(
@@ -91,10 +94,10 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                 userAnswer: answer,
                 isCorrect,
                 score: isCorrect ? prev.score + 1 : prev.score,
-                showResult: true,
+                showResult: true
             }));
         },
-        [quizState.currentNote, quizState.showResult, checkAnswer],
+        [quizState.currentNote, quizState.showResult, checkAnswer]
     );
 
     const nextQuestion = useCallback(() => {
@@ -105,7 +108,7 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                 return {
                     ...prev,
                     showResult: true,
-                    currentNote: null,
+                    currentNote: null
                 };
             }
 
@@ -118,7 +121,7 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                 userAnswer: null,
                 isCorrect: null,
                 currentQuestionIndex: nextIndex,
-                showResult: false,
+                showResult: false
             };
         });
     }, []);
@@ -132,7 +135,7 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
             totalQuestions: 0,
             currentQuestionIndex: 0,
             quizNotes: [],
-            showResult: false,
+            showResult: false
         });
         setCurrentStep(null);
     }, []);
@@ -148,7 +151,7 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         currentStep,
         setCurrentStep,
         octaves,
-        setOctaves,
+        setOctaves
     };
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

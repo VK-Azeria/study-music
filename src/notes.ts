@@ -1,6 +1,14 @@
-import type { NoteName, Note } from "./types";
+import type { NoteName, Note } from './types';
 
-export const existedNotes: NoteName[] = ["до", "ре", "ми", "фа", "соль", "ля", "си"];
+export const existedNotes: NoteName[] = [
+    'до',
+    'ре',
+    'ми',
+    'фа',
+    'соль',
+    'ля',
+    'си'
+];
 
 export const notesList: Note[] = [];
 
