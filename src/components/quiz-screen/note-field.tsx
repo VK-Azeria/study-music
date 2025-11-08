@@ -3,17 +3,22 @@ import type { VisualNote } from "../../types";
 import cn from "classnames";
 
 const renderNoteOnStaff = (note: VisualNote) => {
+    console.log(note);
+
     const noteStyle = {
-        top: `${50 - note.position.line * 10}%`,
+        bottom: `${note.position.line * 10 + 16}%`,
         left: "50%",
         transform: "translateX(-50%)",
     };
 
     return (
         <div className="quiz-screen__field-note" style={noteStyle}>
-            <div className="note-head"></div>
-            {note.position.line > 6 && <div className="stem-up"></div>}
-            {note.position.line < 0 && <div className="stem-down"></div>}
+            <div className="quiz-screen__field-note-head"></div>
+            {note.position.line < 2 ? (
+                <div className="quiz-screen__field-note-stem quiz-screen__field-note-stem--down"></div>
+            ) : (
+                <div className="quiz-screen__field-note-stem quiz-screen__field-note-stem--up"></div>
+            )}
         </div>
     );
 };
@@ -22,25 +27,27 @@ const renderLedgerLines = (note: VisualNote) => {
     const lines = [];
     const linePosition = note.position.line;
 
-    if (linePosition > 6) {
-        for (let i = 7; i <= Math.ceil(linePosition); i += 2) {
+    // Дополнительные линии снизу
+    if (linePosition < 0) {
+        for (let i = 0; i >= Math.floor(linePosition); i--) {
             lines.push(
                 <div
                     key={`top-${i}`}
-                    className="ledger-line top"
-                    style={{ top: `${50 - i * 10}%` }}
+                    className="quiz-screen__field-ledger-line quiz-screen__field-ledger-line--bottom"
+                    style={{ bottom: `${i * 10 + 30}%` }}
                 />,
             );
         }
     }
 
-    if (linePosition < 0) {
-        for (let i = -1; i >= Math.floor(linePosition); i -= 2) {
+    // Дополнительные линии сверху
+    if (linePosition > 5.5) {
+        for (let i = 6; i <= Math.ceil(linePosition); i++) {
             lines.push(
                 <div
                     key={`bottom-${i}`}
-                    className="ledger-line bottom"
-                    style={{ top: `${50 - i * 10}%` }}
+                    className="quiz-screen__field-ledger-line quiz-screen__field-ledger-line--top"
+                    style={{ bottom: `${i * 10 + 30}%` }}
                 />,
             );
         }
@@ -64,11 +71,11 @@ export const NoteField = () => {
                     {quizState.currentNote?.key === "treble" ? "𝄞" : "𝄢"}
                 </div>
 
-                {Array.from({ length: 5 }).map((_, line) => (
+                {Array.from({ length: 5 }).map((_, index) => (
                     <div
-                        key={line}
+                        key={index}
                         className="quiz-screen__field-line"
-                        style={{ top: `${78 - line * 13}%` }}
+                        style={{ bottom: `${index * 10 + 30}%` }}
                     />
                 ))}
 
