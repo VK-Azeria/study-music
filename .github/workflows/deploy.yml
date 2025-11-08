@@ -1,64 +1,59 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    tags:
-      - 'v*'  # ← Запускать только когда пушатся теги начинающиеся с 'v'
+    push:
+        tags:
+            - "v*" # Только при пуше тегов начинающихся с 'v'
 
-# ↓ ПРАВА ДОСТУПА ДЛЯ GITHUB ACTIONS
+# ↓ ДОБАВЬ ЭТИ ПРАВА
 permissions:
-  contents: read    # Чтение кода
-  pages: write      # Запись в GitHub Pages
-  id-token: write   # Для аутентификации
+    contents: read
+    pages: write # ← ДОСТУП К PAGES
+    id-token: write # ← АУТЕНТИФИКАЦИЯ
 
-# ↓ ОПРЕДЕЛЯЕМ JOB'ы (задачи)
+# ↓ ДОБАВЬ ЭТУ НАСТРОЙКУ ДЛЯ JOBS
 jobs:
-  deploy:
-    # ↓ НА КАКОМ СЕРВЕРЕ ВЫПОЛНЯТЬ
-    runs-on: ubuntu-latest
-    
-    steps:
-      # ↓ ШАГ 1: ПОЛУЧЕНИЕ КОДА ИЗ РЕПОЗИТОРИЯ
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Загружаем всю историю (нужно для тегов)
-          
-      # ↓ ШАГ 2: НАСТРОЙКА GITHUB PAGES
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4
-        # Этот экшен подготавливает окружение для деплоя на Pages
-        
-      # ↓ ШАГ 3: УСТАНОВКА NODE.JS
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'  # Версия Node.js
-          cache: 'npm'        # Кеширование node_modules для скорости
-          
-      # ↓ ШАГ 4: УСТАНОВКА ЗАВИСИМОСТЕЙ
-      - name: Install dependencies
-        run: npm install
-        # Устанавливает все зависимости из package.json
-        # Благодаря кешу этот шаг будет быстрым после первого запуска
-        
-      # ↓ ШАГ 5: СБОРКА ПРОЕКТА
-      - name: Build project
-        run: npm run build
-        # Запускает скрипт build из package.json
-        # Создает папку dist с готовым проектом
-        
-      # ↓ ШАГ 6: ЗАГРУЗКА АРТЕФАКТА
-      - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-        # Берет собранный проект из папки dist
-        # И подготавливает его для деплоя на GitHub Pages
-        
-      # ↓ ШАГ 7: ДЕПЛОЙ НА GITHUB PAGES
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        # Финальный шаг - заливает артефакт на GitHub Pages
-        # После этого сайт становится доступным по ссылке
+    build:
+        runs-on: ubuntu-latest
+
+        # ↓ ДОБАВЬ ЭТУ СЕКЦИЮ
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+
+        steps:
+            # ↓ ШАГ 1: ПОЛУЧЕНИЕ КОДА
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0 # Важно для тегов!
+
+            # ↓ ШАГ 2: НАСТРОЙКА PAGES
+            - name: Setup Pages
+              uses: actions/configure-pages@v4
+
+            # ↓ ШАГ 3: НАСТРОЙКА NODE.JS
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+                  cache: "npm"
+
+            # ↓ ШАГ 4: УСТАНОВКА ЗАВИСИМОСТЕЙ
+            - name: Install dependencies
+              run: npm install
+
+            # ↓ ШАГ 5: СБОРКА ПРОЕКТА
+            - name: Build
+              run: npm run build
+
+            # ↓ ШАГ 6: ЗАГРУЗКА АРТЕФАКТА
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: ./dist # Папка куда Vite собирает проект
+
+            # ↓ ШАГ 7: ДЕПЛОЙ
+            - name: Deploy to GitHub Pages
+              id: deployment # ← ВАЖНО: этот id используется в environment.url
+              uses: actions/deploy-pages@v4
