@@ -97,6 +97,10 @@
     gap: 8px;
 }
 
+.quiz-controlls--empty {
+    height: 39px;
+}
+
 .quiz-controlls__button {
     padding: 10px;
     border: 2px solid #ddd;
@@ -125,6 +129,7 @@
     top: 50%;
     transform: translateY(-50%);
     line-height: 1;
+    z-index: 1;
 }
 
 .quiz-screen__field-key--treble {
@@ -133,7 +138,7 @@
 
 .quiz-screen__field-key--bass {
     font-size: 85px;
-    top: 43%;
+    top: 44%;
 }
 
 .quiz-screen__field-line {
@@ -163,9 +168,9 @@
 
 .quiz-screen__field-ledger-line {
     position: absolute;
-    width: 50px;
+    width: 38px;
     height: 2px;
     background: #333;
     z-index: 1;
-    left: 45%;
+    left: 44%;
 }

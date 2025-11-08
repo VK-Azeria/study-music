@@ -5,7 +5,6 @@ export type NotePosition = {
 
 export type VisualNote = Note & {
     position: NotePosition;
-    clef: NoteKey;
 };
 
 export type NoteKey = "treble" | "bass";
@@ -17,3 +16,5 @@ export type Note = {
 };
 
 export type NoteName = "до" | "ре" | "ми" | "фа" | "соль" | "ля" | "си";
+
+export type AvailableOctaves = Record<NoteKey, number[]>;

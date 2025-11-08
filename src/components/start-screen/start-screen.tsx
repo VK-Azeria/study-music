@@ -2,8 +2,9 @@ import { useCallback, useState, type ReactNode } from "react";
 import { useNoteContext } from "../../context";
 import { messages } from "../../texts";
 import "./start-screen.css";
-import { PredefinedButtons } from "./predefined-buttons";
+import { PredefinedButtons } from "./partials/predefined-buttons";
 import cn from "classnames";
+import { OctavesSelector } from "./partials/octaves-selectors";
 
 type ContainerProps = { children: ReactNode };
 
@@ -37,6 +38,7 @@ export const StartScreen = () => {
                         id="q-count"
                         className="start-screen__q-count-input"
                         value={questionsCount}
+                        min={1}
                         onChange={(v) =>
                             setQuestionsCount(Number((v.target as HTMLInputElement).value))
                         }
@@ -45,6 +47,7 @@ export const StartScreen = () => {
                         <PredefinedButtons setQuestionsCount={setQuestionsCount} />
                     </div>
                 </label>
+                <OctavesSelector />
                 <button className="start-screen__start-button" onClick={handleStartQuiz}>
                     {messages["start-screen.start"]}
                 </button>

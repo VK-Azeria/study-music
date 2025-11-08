@@ -8,7 +8,7 @@ import {
     type SetStateAction,
 } from "react";
 
-import type { VisualNote, NoteName, Note } from "./types";
+import type { VisualNote, NoteName, Note, AvailableOctaves } from "./types";
 import { getNoteName } from "./notes";
 import { generateQuizNotes } from "./utils/generate-quiz-notes";
 
@@ -26,6 +26,8 @@ type QuizState = {
 type Context = {
     quizState: QuizState;
     startQuiz: (questionCount?: number) => void;
+    octaves: AvailableOctaves;
+    setOctaves: Dispatch<SetStateAction<AvailableOctaves>>;
     submitAnswer: (answer: NoteName) => void;
     nextQuestion: () => void;
     resetQuiz: () => void;
@@ -39,6 +41,12 @@ const [_noteProvider, useNoteContext] = createContext<Context>("context");
 
 const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [currentStep, setCurrentStep] = useState<null | Note>(null);
+    const [octaves, setOctaves] = useState<AvailableOctaves>({
+        treble: [3, 4, 5, 6],
+        bass: [1, 2, 3, 4],
+    });
+
+    console.log(currentStep);
 
     const [quizState, setQuizState] = useState<QuizState>({
         currentNote: null,
@@ -56,20 +64,23 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         return userAnswer === correctNoteName;
     }, []);
 
-    const startQuiz = useCallback((questionCount: number = 10) => {
-        const quizNotes = generateQuizNotes(questionCount);
-        setQuizState({
-            currentNote: quizNotes[0],
-            userAnswer: null,
-            isCorrect: null,
-            score: 0,
-            totalQuestions: questionCount,
-            currentQuestionIndex: 0,
-            quizNotes,
-            showResult: false,
-        });
-        setCurrentStep(quizNotes[0]);
-    }, []);
+    const startQuiz = useCallback<Context["startQuiz"]>(
+        (questionCount = 10) => {
+            const quizNotes = generateQuizNotes(questionCount, octaves);
+            setQuizState({
+                currentNote: quizNotes[0],
+                userAnswer: null,
+                isCorrect: null,
+                score: 0,
+                totalQuestions: questionCount,
+                currentQuestionIndex: 0,
+                quizNotes,
+                showResult: false,
+            });
+            setCurrentStep(quizNotes[0]);
+        },
+        [octaves],
+    );
 
     const submitAnswer = useCallback(
         (answer: NoteName) => {
@@ -138,6 +149,8 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         getNoteName,
         currentStep,
         setCurrentStep,
+        octaves,
+        setOctaves,
     };
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

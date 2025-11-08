@@ -1,44 +1,252 @@
-import type { Note, NotePosition } from "../types";
+import type { Note, NoteKey, NotePosition } from "../types";
+
+const notePositions: Record<NoteKey, Record<number, Record<number, NotePosition>>> = {
+    treble: {
+        3: {
+            0: {
+                line: -3.5,
+                isOnLine: false,
+            },
+            1: {
+                line: -3,
+                isOnLine: true,
+            },
+            2: {
+                line: -2.5,
+                isOnLine: false,
+            },
+            3: {
+                line: -2,
+                isOnLine: true,
+            },
+            4: {
+                line: -1.5,
+                isOnLine: false,
+            },
+            5: {
+                line: -1,
+                isOnLine: true,
+            },
+            6: {
+                line: -0.5,
+                isOnLine: false,
+            },
+        },
+        4: {
+            0: {
+                line: 0,
+                isOnLine: true,
+            },
+            1: {
+                line: 0.5,
+                isOnLine: false,
+            },
+            2: {
+                line: 1,
+                isOnLine: true,
+            },
+            3: {
+                line: 1.5,
+                isOnLine: false,
+            },
+            4: {
+                line: 2,
+                isOnLine: true,
+            },
+            5: {
+                line: 2.5,
+                isOnLine: false,
+            },
+            6: {
+                line: 3,
+                isOnLine: true,
+            },
+        },
+        5: {
+            0: {
+                line: 3.5,
+                isOnLine: false,
+            },
+            1: {
+                line: 4,
+                isOnLine: true,
+            },
+            2: {
+                line: 4.5,
+                isOnLine: false,
+            },
+            3: {
+                line: 5,
+                isOnLine: true,
+            },
+            4: {
+                line: 5.5,
+                isOnLine: false,
+            },
+            5: {
+                line: 6,
+                isOnLine: true,
+            },
+            6: {
+                line: 6.5,
+                isOnLine: false,
+            },
+        },
+        6: {
+            0: {
+                line: 7,
+                isOnLine: true,
+            },
+            1: {
+                line: 7.5,
+                isOnLine: false,
+            },
+            2: {
+                line: 8,
+                isOnLine: true,
+            },
+            3: {
+                line: 8.5,
+                isOnLine: false,
+            },
+            4: {
+                line: 9,
+                isOnLine: true,
+            },
+            5: {
+                line: 9.5,
+                isOnLine: false,
+            },
+            6: {
+                line: 10,
+                isOnLine: true,
+            },
+        },
+    },
+    bass: {
+        1: {
+            0: {
+                line: -4.5,
+                isOnLine: false,
+            },
+            1: {
+                line: -4,
+                isOnLine: true,
+            },
+            2: {
+                line: -3.5,
+                isOnLine: false,
+            },
+            3: {
+                line: -3,
+                isOnLine: true,
+            },
+            4: {
+                line: -2.5,
+                isOnLine: false,
+            },
+            5: {
+                line: -2,
+                isOnLine: true,
+            },
+            6: {
+                line: -1.5,
+                isOnLine: false,
+            },
+        },
+        2: {
+            0: {
+                line: -1,
+                isOnLine: true,
+            },
+            1: {
+                line: -0.5,
+                isOnLine: false,
+            },
+            2: {
+                line: 0,
+                isOnLine: true,
+            },
+            3: {
+                line: 0.5,
+                isOnLine: false,
+            },
+            4: {
+                line: 1,
+                isOnLine: true,
+            },
+            5: {
+                line: 1.5,
+                isOnLine: false,
+            },
+            6: {
+                line: 2,
+                isOnLine: true,
+            },
+        },
+        3: {
+            0: {
+                line: 2.5,
+                isOnLine: false,
+            },
+            1: {
+                line: 3,
+                isOnLine: true,
+            },
+            2: {
+                line: 3.5,
+                isOnLine: false,
+            },
+            3: {
+                line: 4,
+                isOnLine: true,
+            },
+            4: {
+                line: 4.5,
+                isOnLine: false,
+            },
+            5: {
+                line: 5,
+                isOnLine: true,
+            },
+            6: {
+                line: 5.5,
+                isOnLine: false,
+            },
+        },
+        4: {
+            0: {
+                line: 6,
+                isOnLine: true,
+            },
+            1: {
+                line: 6.5,
+                isOnLine: false,
+            },
+            2: {
+                line: 7,
+                isOnLine: true,
+            },
+            3: {
+                line: 7.5,
+                isOnLine: false,
+            },
+            4: {
+                line: 8,
+                isOnLine: true,
+            },
+            5: {
+                line: 8.5,
+                isOnLine: false,
+            },
+            6: {
+                line: 9,
+                isOnLine: true,
+            },
+        },
+    },
+};
 
 export const calculateNotePosition = (note: Note): NotePosition => {
-    if (note.key === "treble") {
-        // Скрипичный ключ:
-        // - Базовая нота: "соль" 1-й октавы (G4) на 2-й линии (note=4)
-        // - "до" 1-й октавы (C4) = под первой дополнительной линией снизу
-
-        // Смещение от "до" 1-й октавы (C4)
-        const notesFromC4 = (note.octave - 4) * 7 + note.note;
-        console.log("notesFromC4", notesFromC4);
-
-        // C4 = 0, D4 = 1, E4 = 2, F4 = 3, G4 = 4, A4 = 5, B4 = 6
-        // C5 = 7, D5 = 8, etc.
-
-        // Позиция: C4 = 2 (под первой линией), каждая нота = +0.5 линии
-        const line = notesFromC4 * 0.5;
-        console.log("line", line);
-
-        return {
-            line: Math.round(line * 2) / 2,
-            isOnLine: Math.round(line) === line,
-        };
-    } else {
-        // Басовый ключ:
-        // - Базовая нота: "фа" малой октавы (F3) на 4-й линии (note=3)
-        // - "до" малой октавы (C3) = под пятой линией
-
-        // Смещение от "до" малой октавы (C3)
-        const notesFromC3 = (note.octave - 3) * 7 + note.note;
-        console.log("notesFromC3", notesFromC3);
-        // C3 = 0, D3 = 1, E3 = 2, F3 = 3, G3 = 4, A3 = 5, B3 = 6
-        // C4 = 7, D4 = 8, etc.
-
-        // Позиция: C3 = -2 (под пятой линией), каждая нота = +0.5 линии
-        const line = notesFromC3 * 0.5;
-        console.log("line", line);
-
-        return {
-            line: Math.round(line * 2) / 2,
-            isOnLine: Math.round(line) === line,
-        };
-    }
+    return notePositions[note.key][note.octave][note.note];
 };

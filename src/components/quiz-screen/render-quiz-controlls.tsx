@@ -5,7 +5,7 @@ export const RenderQuizControlls = () => {
     const { quizState, nextQuestion } = useNoteContext("RenderQuizControlls");
 
     if (!quizState.showResult) {
-        return null;
+        return <div className="quiz-controlls--empty" />;
     }
 
     const buttonText =

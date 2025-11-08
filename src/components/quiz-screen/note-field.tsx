@@ -3,10 +3,17 @@ import type { VisualNote } from "../../types";
 import cn from "classnames";
 
 const renderNoteOnStaff = (note: VisualNote) => {
-    console.log(note);
+    let bottomPosition = 23;
+
+    if (note.position.line < 0.5) {
+        bottomPosition = 21;
+    }
+    if (note.position.line > 5.5) {
+        bottomPosition = 21.5;
+    }
 
     const noteStyle = {
-        bottom: `${note.position.line * 10 + 16}%`,
+        bottom: `${note.position.line * 8 + bottomPosition}%`,
         left: "50%",
         transform: "translateX(-50%)",
     };
@@ -14,7 +21,7 @@ const renderNoteOnStaff = (note: VisualNote) => {
     return (
         <div className="quiz-screen__field-note" style={noteStyle}>
             <div className="quiz-screen__field-note-head"></div>
-            {note.position.line < 2 ? (
+            {note.position.line < 3 ? (
                 <div className="quiz-screen__field-note-stem quiz-screen__field-note-stem--down"></div>
             ) : (
                 <div className="quiz-screen__field-note-stem quiz-screen__field-note-stem--up"></div>
@@ -28,13 +35,13 @@ const renderLedgerLines = (note: VisualNote) => {
     const linePosition = note.position.line;
 
     // Дополнительные линии снизу
-    if (linePosition < 0) {
-        for (let i = 0; i >= Math.floor(linePosition); i--) {
+    if (linePosition < 0.5) {
+        for (let i = 0; i >= Math.floor(linePosition + 0.5); i--) {
             lines.push(
                 <div
                     key={`top-${i}`}
                     className="quiz-screen__field-ledger-line quiz-screen__field-ledger-line--bottom"
-                    style={{ bottom: `${i * 10 + 30}%` }}
+                    style={{ bottom: `${i * 8 + 25}%` }}
                 />,
             );
         }
@@ -47,7 +54,7 @@ const renderLedgerLines = (note: VisualNote) => {
                 <div
                     key={`bottom-${i}`}
                     className="quiz-screen__field-ledger-line quiz-screen__field-ledger-line--top"
-                    style={{ bottom: `${i * 10 + 30}%` }}
+                    style={{ bottom: `${i * 8 + 25}%` }}
                 />,
             );
         }
@@ -75,7 +82,7 @@ export const NoteField = () => {
                     <div
                         key={index}
                         className="quiz-screen__field-line"
-                        style={{ bottom: `${index * 10 + 30}%` }}
+                        style={{ bottom: `${index * 8 + 35}%` }}
                     />
                 ))}
 

@@ -41,6 +41,7 @@
     min-width: 250px;
 }
 
+.start-screen__octave-button,
 .start-screen__q-count-button,
 .start-screen__q-count-input {
     outline: none;
@@ -49,6 +50,16 @@
     background: white;
     cursor: pointer;
     transition: all 0.3s;
+}
+
+.start-screen__octave-button:hover,
+.start-screen__q-count-button:hover {
+    border-color: #007acc;
+}
+
+.start-screen__octave-button {
+    word-break: break-word;
+    width: 100%;
 }
 
 .start-screen__q-count-button {
@@ -67,7 +78,7 @@
     padding: 10px 20px;
     min-width: 250px;
     border: 2px solid #dddddd;
-    background: rgb(15 204 142);
+    background: #4caf50;
     cursor: pointer;
     transition: all 0.3s;
     color: #ffffff;
@@ -105,4 +116,39 @@
 
 .start-screen__home-button:hover {
     color: #ffffff;
+}
+
+.start-screen__octaves {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-direction: column;
+    max-width: 250px;
+}
+
+.start-screen__octave-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.start-screen__octaves-wrapper {
+    width: 100%;
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.start-screen__octave-title {
+    position: absolute;
+    top: 50%;
+    transform: translate(-120%, -50%);
+    font-size: 50px;
+    left: 0;
+}
+
+.start-screen__octave-button--active {
+    border-color: #4caf50;
 }
