@@ -46,8 +46,6 @@ const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         bass: [1, 2, 3, 4],
     });
 
-    console.log(currentStep);
-
     const [quizState, setQuizState] = useState<QuizState>({
         currentNote: null,
         userAnswer: null,

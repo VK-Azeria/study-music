@@ -159,11 +159,22 @@
 
 .quiz-screen__field-note {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #000;
-    border-radius: 50%;
     z-index: 10;
+    width: 20px;
+    height: 13px;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
+.quiz-screen__field-note-head {
+    width: 25px;
+    height: 16px;
+    background: #000;
+    top: 0;
+    left: -3px;
+    transform: rotate(-20deg);
+    border-radius: 50%;
+    position: absolute;
 }
 
 .quiz-screen__field-ledger-line {
@@ -173,4 +184,17 @@
     background: #333;
     z-index: 1;
     left: 44%;
+}
+
+.quiz-screen__field-note-stem {
+    width: 2px;
+    height: 60px;
+    background: #000;
+    position: absolute;
+    right: -1px;
+    bottom: 8px;
+}
+
+.quiz-screen__field-note--down {
+    transform: translateX(-50%) rotate(180deg);
 }

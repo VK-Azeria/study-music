@@ -3,28 +3,34 @@ import type { VisualNote } from "../../types";
 import cn from "classnames";
 
 const renderNoteOnStaff = (note: VisualNote) => {
-    let bottomPosition = 23;
+    let bottomPosition = 24.2;
 
+    if (note.position.line < 3) {
+        bottomPosition = 25.4;
+    }
     if (note.position.line < 0.5) {
-        bottomPosition = 21;
+        bottomPosition = 23.5;
     }
     if (note.position.line > 5.5) {
         bottomPosition = 21.5;
     }
-
+    
     const noteStyle = {
         bottom: `${note.position.line * 8 + bottomPosition}%`,
-        left: "50%",
-        transform: "translateX(-50%)",
     };
 
     return (
-        <div className="quiz-screen__field-note" style={noteStyle}>
+        <div
+            className={cn("quiz-screen__field-note", {
+                "quiz-screen__field-note--down": note.position.line > 2.5,
+            })}
+            style={noteStyle}
+        >
             <div className="quiz-screen__field-note-head"></div>
             {note.position.line < 3 ? (
-                <div className="quiz-screen__field-note-stem quiz-screen__field-note-stem--down"></div>
+                <div className={cn("quiz-screen__field-note-stem")} />
             ) : (
-                <div className="quiz-screen__field-note-stem quiz-screen__field-note-stem--up"></div>
+                <div className={cn("quiz-screen__field-note-stem")} />
             )}
         </div>
     );
@@ -40,7 +46,10 @@ const renderLedgerLines = (note: VisualNote) => {
             lines.push(
                 <div
                     key={`top-${i}`}
-                    className="quiz-screen__field-ledger-line quiz-screen__field-ledger-line--bottom"
+                    className={cn(
+                        "quiz-screen__field-ledger-line",
+                        "quiz-screen__field-ledger-line--bottom",
+                    )}
                     style={{ bottom: `${i * 8 + 25}%` }}
                 />,
             );
@@ -49,11 +58,14 @@ const renderLedgerLines = (note: VisualNote) => {
 
     // Дополнительные линии сверху
     if (linePosition > 5.5) {
-        for (let i = 6; i <= Math.ceil(linePosition); i++) {
+        for (let i = 6; i <= Math.ceil(linePosition - 0.5); i++) {
             lines.push(
                 <div
                     key={`bottom-${i}`}
-                    className="quiz-screen__field-ledger-line quiz-screen__field-ledger-line--top"
+                    className={cn(
+                        "quiz-screen__field-ledger-line",
+                        "quiz-screen__field-ledger-line--top",
+                    )}
                     style={{ bottom: `${i * 8 + 25}%` }}
                 />,
             );
